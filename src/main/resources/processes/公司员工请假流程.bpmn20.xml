@@ -8,13 +8,7 @@
         <modeler:initiator-can-complete xmlns:modeler="http://flowable.org/modeler"><![CDATA[false]]></modeler:initiator-can-complete>
       </extensionElements>
     </userTask>
-    <userTask id="teacherPass" name="领导审批 " flowable:candidateGroups="1" flowable:formFieldValidation="true">
-      <extensionElements>
-        <modeler:group-info-name-1 xmlns:modeler="http://flowable.org/modeler"><![CDATA[组1]]></modeler:group-info-name-1>
-        <modeler:activiti-idm-candidate-group xmlns:modeler="http://flowable.org/modeler"><![CDATA[true]]></modeler:activiti-idm-candidate-group>
-        <modeler:initiator-can-complete xmlns:modeler="http://flowable.org/modeler"><![CDATA[false]]></modeler:initiator-can-complete>
-      </extensionElements>
-    </userTask>1
+    <userTask id="teacherPass" name="领导审批 " flowable:candidateGroups="a" flowable:formFieldValidation="true"></userTask>
     <exclusiveGateway id="judgeTask" name="判断是否大于2天"></exclusiveGateway>
     <sequenceFlow id="applyFlow" name="申请流程 " sourceRef="apply" targetRef="teacherPass"></sequenceFlow>
     <userTask id="principalPass" name="老板审批" flowable:candidateGroups="b" flowable:formFieldValidation="true"></userTask>
