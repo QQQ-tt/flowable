@@ -21,7 +21,6 @@ import qtx.spring.flowable.service.FlowableBaseService;
 @RequestMapping("/flowableBase")
 public class FlowableBaseController {
 
-
     private final FlowableBaseService flowableBaseService;
 
     public FlowableBaseController(FlowableBaseService flowableBaseService) {
