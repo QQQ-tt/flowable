@@ -5,6 +5,7 @@ import org.flowable.engine.RepositoryService;
 import org.flowable.engine.RuntimeService;
 import org.flowable.engine.TaskService;
 import org.flowable.engine.repository.Deployment;
+import org.flowable.engine.repository.DeploymentQuery;
 import org.flowable.engine.runtime.ProcessInstance;
 import org.flowable.task.api.Task;
 import org.junit.jupiter.api.Test;
@@ -43,7 +44,22 @@ class FlowableApplicationTests {
                 .deploy();
         System.out.println("deployment.getId() = " + deployment.getId());
         System.out.println("deployment.getName() = " + deployment.getName());
+    }
 
+    @Test
+    void testDeploy2() {
+        // 部署流程 获取RepositoryService对象
+        RepositoryService repositoryService = processEngine.getRepositoryService();
+        Deployment deployment = repositoryService.createDeployment()
+                // 添加流程部署文件
+                .addInputStream("请假流程.bpmn20.xml", this.getClass().getClassLoader().getResourceAsStream("processes/公司员工请假流程.bpmn20.xml"))
+                // 设置部署流程的名称
+                .name("公司员工请假流程测试")
+                // 执行部署操作
+                .deploy();
+        DeploymentQuery deploymentQuery = repositoryService.createDeploymentQuery()
+                .orderByDeploymentId();
+        List<Deployment> deployments = deploymentQuery.list();
     }
 
     /**
@@ -67,6 +83,9 @@ class FlowableApplicationTests {
         System.out.println("当前活动的ID：" + leave.getActivityId());
     }
 
+    /**
+     * 测试任务用户
+     */
     @Test
     void testTaskUser() {
         TaskService taskService = processEngine.getTaskService();

@@ -27,6 +27,12 @@
             <artifactId>mybatis-plus-spring-boot3-starter</artifactId>
             <version>3.5.5</version>
         </dependency>
+        <!-- minio 文件服务客户端 -->
+        <dependency>
+            <groupId>io.minio</groupId>
+            <artifactId>minio</artifactId>
+            <version>8.5.8</version>
+        </dependency>
 
         <!-- 代码生成器 -->
         <dependency>
