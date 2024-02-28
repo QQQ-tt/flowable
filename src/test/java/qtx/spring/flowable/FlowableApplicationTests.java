@@ -37,7 +37,7 @@ class FlowableApplicationTests {
         // 创建Deployment对象
         Deployment deployment = repositoryService.createDeployment()
                 // 添加流程部署文件
-                .addClasspathResource("processes/公司员工请假流程.bpmn20.xml")
+                .addClasspathResource("processes1/公司员工请假流程.bpmn20.xml")
                 // 设置部署流程的名称
                 .name("公司员工请假流程测试")
                 // 执行部署操作
@@ -52,7 +52,8 @@ class FlowableApplicationTests {
         RepositoryService repositoryService = processEngine.getRepositoryService();
         Deployment deployment = repositoryService.createDeployment()
                 // 添加流程部署文件
-                .addInputStream("请假流程.bpmn20.xml", this.getClass().getClassLoader().getResourceAsStream("processes/公司员工请假流程.bpmn20.xml"))
+                .addInputStream("请假流程.bpmn20.xml", this.getClass().getClassLoader().getResourceAsStream(
+                        "processes1/公司员工请假流程.bpmn20.xml"))
                 // 设置部署流程的名称
                 .name("公司员工请假流程测试")
                 // 执行部署操作
