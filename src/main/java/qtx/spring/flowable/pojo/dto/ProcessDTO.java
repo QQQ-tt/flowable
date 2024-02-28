@@ -15,5 +15,7 @@ public class ProcessDTO {
 
     private String taskId;
 
+    private String user;
+
     private Map<String, Object> variables;
 }

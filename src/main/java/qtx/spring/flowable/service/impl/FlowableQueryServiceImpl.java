@@ -6,9 +6,9 @@ import org.springframework.stereotype.Service;
 import qtx.spring.flowable.common.FlowableFactory;
 import qtx.spring.flowable.pojo.dto.TaskParamDTO;
 import qtx.spring.flowable.pojo.vo.DeploymentVO;
+import qtx.spring.flowable.pojo.vo.TaskVO;
 import qtx.spring.flowable.service.FlowableQueryService;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -19,18 +19,20 @@ import java.util.List;
 public class FlowableQueryServiceImpl extends FlowableFactory implements FlowableQueryService {
 
     @Override
-    public List<Task> taskByUserAndId(TaskParamDTO dto) {
-        return getTaskService().createTaskQuery()
+    public List<TaskVO> taskByUserAndId(TaskParamDTO dto) {
+        List<Task> taskList = getTaskService().createTaskQuery()
                 .processDefinitionId(dto.getProcessInstanceId())
                 .taskAssignee(dto.getAssignee())
                 .list();
+        return getTaskVOList(taskList);
     }
 
     @Override
-    public List<Task> taskById(TaskParamDTO dto) {
-        return getTaskService().createTaskQuery()
+    public List<TaskVO> taskById(TaskParamDTO dto) {
+        List<Task> taskList = getTaskService().createTaskQuery()
                 .processDefinitionId(dto.getProcessInstanceId())
                 .list();
+        return getTaskVOList(taskList);
     }
 
     @Override
@@ -39,13 +41,6 @@ public class FlowableQueryServiceImpl extends FlowableFactory implements Flowabl
                 .orderByDeploymentId()
                 .asc()
                 .list();
-        List<DeploymentVO> vos = new ArrayList<>();
-        list.forEach(deployment -> {
-            DeploymentVO vo = new DeploymentVO();
-            vo.setId(deployment.getId());
-            vo.setName(deployment.getName());
-            vos.add(vo);
-        });
-        return vos;
+        return getDeploymentVOList(list);
     }
 }

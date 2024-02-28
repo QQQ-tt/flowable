@@ -1,8 +1,8 @@
 package qtx.spring.flowable.service;
 
-import org.flowable.task.api.Task;
 import qtx.spring.flowable.pojo.dto.TaskParamDTO;
 import qtx.spring.flowable.pojo.vo.DeploymentVO;
+import qtx.spring.flowable.pojo.vo.TaskVO;
 
 import java.util.List;
 
@@ -18,7 +18,7 @@ public interface FlowableQueryService {
      * @param dto 任务参数
      * @return 任务集合
      */
-    List<Task> taskByUserAndId(TaskParamDTO dto);
+    List<TaskVO> taskByUserAndId(TaskParamDTO dto);
 
     /**
      * 根据流程ID查询任务
@@ -26,7 +26,7 @@ public interface FlowableQueryService {
      * @param dto 任务参数
      * @return 任务集合
      */
-    List<Task> taskById(TaskParamDTO dto);
+    List<TaskVO> taskById(TaskParamDTO dto);
 
     /**
      * 流程查询

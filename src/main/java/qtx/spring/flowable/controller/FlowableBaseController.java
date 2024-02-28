@@ -1,7 +1,5 @@
 package qtx.spring.flowable.controller;
 
-import org.flowable.engine.repository.Deployment;
-import org.flowable.engine.runtime.ProcessInstance;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -11,6 +9,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import qtx.spring.flowable.common.Result;
 import qtx.spring.flowable.pojo.dto.ProcessDTO;
+import qtx.spring.flowable.pojo.vo.DeploymentVO;
+import qtx.spring.flowable.pojo.vo.ProcessInstanceVO;
 import qtx.spring.flowable.service.FlowableBaseService;
 
 /**
@@ -28,12 +28,12 @@ public class FlowableBaseController {
     }
 
     @GetMapping("/createDeploy")
-    public Result<Deployment> createDeploy(@RequestParam("file") MultipartFile file, String name) {
+    public Result<DeploymentVO> createDeploy(@RequestParam("file") MultipartFile file, String name) {
         return Result.success(flowableBaseService.createDeploy(file, name));
     }
 
     @PostMapping("/startProcess")
-    public Result<ProcessInstance> startProcess(@RequestBody ProcessDTO dto) {
+    public Result<ProcessInstanceVO> startProcess(@RequestBody ProcessDTO dto) {
         return Result.success(flowableBaseService.startProcess(dto));
     }
 

@@ -1,6 +1,5 @@
 package qtx.spring.flowable.controller;
 
-import org.flowable.task.api.Task;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -9,6 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 import qtx.spring.flowable.common.Result;
 import qtx.spring.flowable.pojo.dto.TaskParamDTO;
 import qtx.spring.flowable.pojo.vo.DeploymentVO;
+import qtx.spring.flowable.pojo.vo.TaskVO;
 import qtx.spring.flowable.service.FlowableQueryService;
 
 import java.util.List;
@@ -28,12 +28,12 @@ public class FlowableQueryController {
     }
 
     @PostMapping("/taskByUserAndId")
-    public Result<List<Task>> taskByUserAndId(@RequestBody TaskParamDTO dto) {
+    public Result<List<TaskVO>> taskByUserAndId(@RequestBody TaskParamDTO dto) {
         return Result.success(flowableQueryService.taskByUserAndId(dto));
     }
 
     @PostMapping("/taskById")
-    public Result<List<Task>> taskById(@RequestBody TaskParamDTO dto) {
+    public Result<List<TaskVO>> taskById(@RequestBody TaskParamDTO dto) {
         return Result.success(flowableQueryService.taskById(dto));
     }
 
