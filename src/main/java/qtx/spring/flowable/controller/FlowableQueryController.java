@@ -37,6 +37,12 @@ public class FlowableQueryController {
         return Result.success(flowableQueryService.taskById(dto));
     }
 
+    @PostMapping("/taskList")
+    public Result<List<TaskVO>> taskList(@RequestBody TaskParamDTO dto) {
+        return Result.success(flowableQueryService.taskList(dto));
+    }
+
+
     @GetMapping("/processAll")
     public Result<List<DeploymentVO>> processAll() {
         return Result.success(flowableQueryService.processAll());

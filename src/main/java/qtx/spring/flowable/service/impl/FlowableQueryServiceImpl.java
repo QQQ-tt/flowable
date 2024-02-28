@@ -2,6 +2,7 @@ package qtx.spring.flowable.service.impl;
 
 import org.flowable.engine.repository.Deployment;
 import org.flowable.task.api.Task;
+import org.flowable.task.api.TaskQuery;
 import org.springframework.stereotype.Service;
 import qtx.spring.flowable.common.FlowableFactory;
 import qtx.spring.flowable.pojo.dto.TaskParamDTO;
@@ -33,6 +34,34 @@ public class FlowableQueryServiceImpl extends FlowableFactory implements Flowabl
                 .processDefinitionId(dto.getProcessInstanceId())
                 .list();
         return getTaskVOList(taskList);
+    }
+
+    @Override
+    public List<TaskVO> taskList(TaskParamDTO dto) {
+        TaskQuery taskQuery = getTaskService().createTaskQuery();
+        if (dto.getTaskId() != null) {
+            taskQuery.taskId(dto.getTaskId());
+        }
+        if (dto.getAssignee() != null) {
+            taskQuery.taskAssignee(dto.getAssignee());
+        }
+        if (dto.getProcessInstanceId() != null) {
+            taskQuery.processInstanceId(dto.getProcessInstanceId());
+        }
+        if (dto.getProcessDefinitionId() != null) {
+            taskQuery.processDefinitionId(dto.getProcessDefinitionId());
+        }
+        if (dto.getProcessDefinitionKey() != null) {
+            taskQuery.processDefinitionKey(dto.getProcessDefinitionKey());
+        }
+        if (dto.getTaskName() != null) {
+            taskQuery.taskName(dto.getTaskName());
+        }
+        if (dto.getTaskDefinitionKey() != null) {
+            taskQuery.taskDefinitionKey(dto.getTaskDefinitionKey());
+        }
+        // ...
+        return getTaskVOList(taskQuery.list());
     }
 
     @Override

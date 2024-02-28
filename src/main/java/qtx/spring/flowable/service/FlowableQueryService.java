@@ -29,6 +29,13 @@ public interface FlowableQueryService {
     List<TaskVO> taskById(TaskParamDTO dto);
 
     /**
+     * 任务查询
+     * @param dto 任务参数
+     * @return 任务集合
+     */
+    List<TaskVO> taskList(TaskParamDTO dto);
+
+    /**
      * 流程查询
      *
      * @return 流程集合
