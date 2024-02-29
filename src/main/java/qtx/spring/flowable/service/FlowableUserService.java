@@ -1,7 +1,7 @@
 package qtx.spring.flowable.service;
 
-import org.flowable.idm.api.Group;
-import org.flowable.idm.api.User;
+import qtx.spring.flowable.pojo.vo.GroupVO;
+import qtx.spring.flowable.pojo.vo.UserVO;
 
 /**
  * @author qtx
@@ -10,19 +10,13 @@ import org.flowable.idm.api.User;
 public interface FlowableUserService {
 
     /**
-     * 创建用户
+     * 编辑用户
      * @param userId 用户id
      * @param firstName 用户名
      * @param lastName 用户名
      * @param email 邮箱
      */
-    void createUser(String userId, String firstName, String lastName, String email);
-
-    /**
-     * 更新用户
-     * @param updatedUser 用户
-     */
-    void updateUser(User updatedUser);
+    void saveOrUpdateUser(String userId, String firstName, String lastName, String email);
 
     /**
      * 删除用户
@@ -32,23 +26,18 @@ public interface FlowableUserService {
 
     /**
      * 根据用户id查询用户
+     *
      * @param userId 用户id
      * @return 用户
      */
-    User findUserById(String userId);
+    UserVO findUserById(String userId);
 
     /**
-     * 创建用户组
+     * 编辑用户组
      * @param groupId 用户组id
      * @param groupName 用户组名
      */
-    void createGroup(String groupId, String groupName);
-
-    /**
-     * 更新用户组
-     * @param updatedGroup 用户组
-     */
-    void updateGroup(Group updatedGroup);
+    void saveOrUpdateGroup(String groupId, String groupName);
 
     /**
      * 删除用户组
@@ -58,8 +47,9 @@ public interface FlowableUserService {
 
     /**
      * 根据用户组id查询用户组
+     *
      * @param groupId 用户组id
      * @return 用户组
      */
-    Group findGroupById(String groupId);
+    GroupVO findGroupById(String groupId);
 }
