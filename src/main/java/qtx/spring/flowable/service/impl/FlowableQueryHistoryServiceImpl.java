@@ -1,6 +1,7 @@
 package qtx.spring.flowable.service.impl;
 
 import org.flowable.engine.history.HistoricActivityInstance;
+import org.flowable.engine.task.Comment;
 import org.flowable.task.api.history.HistoricTaskInstance;
 import org.flowable.task.api.history.HistoricTaskInstanceQuery;
 import org.springframework.stereotype.Service;
@@ -8,6 +9,7 @@ import qtx.spring.flowable.common.FlowableFactory;
 import qtx.spring.flowable.pojo.dto.FinishedTaskQueryDTO;
 import qtx.spring.flowable.pojo.dto.HistoryParamDTO;
 import qtx.spring.flowable.pojo.dto.VariablesParamDTO;
+import qtx.spring.flowable.pojo.vo.CommentVO;
 import qtx.spring.flowable.pojo.vo.HistoryVO;
 import qtx.spring.flowable.pojo.vo.TaskVO;
 import qtx.spring.flowable.service.FlowableQueryHistoryService;
@@ -76,5 +78,21 @@ public class FlowableQueryHistoryServiceImpl extends FlowableFactory implements 
             vos.add(TaskVO.builder().id(e.getId()).name(e.getName()).createTime(e.getCreateTime()).build());
         });
         return vos;
+    }
+
+    @Override
+    public List<CommentVO> listCommentsByInstanceId(String instanceId) {
+        List<CommentVO> list = new ArrayList<>();
+        // 获取意见评论内容
+        List<Comment> commentList = getTaskService().getProcessInstanceComments(instanceId);
+        commentList.forEach(e -> {
+            list.add(CommentVO.builder()
+                    .taskId(e.getTaskId())
+                    .userId(e.getUserId())
+                    .type(e.getType())
+                    .comment(e.getFullMessage())
+                    .build());
+        });
+        return list;
     }
 }

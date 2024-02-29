@@ -3,6 +3,7 @@ package qtx.spring.flowable.service;
 import qtx.spring.flowable.pojo.dto.FinishedTaskQueryDTO;
 import qtx.spring.flowable.pojo.dto.HistoryParamDTO;
 import qtx.spring.flowable.pojo.dto.VariablesParamDTO;
+import qtx.spring.flowable.pojo.vo.CommentVO;
 import qtx.spring.flowable.pojo.vo.HistoryVO;
 import qtx.spring.flowable.pojo.vo.TaskVO;
 
@@ -34,4 +35,11 @@ public interface FlowableQueryHistoryService {
      * @return
      */
     List<TaskVO> finishedTaskList(FinishedTaskQueryDTO dto);
+
+    /**
+     * 查询评论
+     * @param instanceId
+     * @return
+     */
+    List<CommentVO> listCommentsByInstanceId(String instanceId);
 }

@@ -7,6 +7,7 @@ import qtx.spring.flowable.pojo.dto.FinishedTaskQueryDTO;
 import qtx.spring.flowable.pojo.dto.HistoryParamDTO;
 import qtx.spring.flowable.pojo.dto.TaskParamDTO;
 import qtx.spring.flowable.pojo.dto.VariablesParamDTO;
+import qtx.spring.flowable.pojo.vo.CommentVO;
 import qtx.spring.flowable.pojo.vo.HistoryVO;
 import qtx.spring.flowable.pojo.vo.TaskVO;
 import qtx.spring.flowable.service.FlowableQueryHistoryService;
@@ -41,6 +42,11 @@ public class FlowableQueryHistoryController {
     @PostMapping("/finishedTaskList")
     public Result<List<TaskVO>> finishedTaskList(FinishedTaskQueryDTO dto) {
         return Result.success(flowableQueryHistoryService.finishedTaskList(dto));
+    }
+
+    @PostMapping("/listCommentsByInstanceId")
+    public Result<List<CommentVO>> listCommentsByInstanceId(String instanceId) {
+        return Result.success(flowableQueryHistoryService.listCommentsByInstanceId(instanceId));
     }
 
 
