@@ -1,5 +1,6 @@
 package qtx.spring.flowable.controller;
 
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -41,5 +42,34 @@ public class FlowableBaseController {
     public Result<Object> completeTask(@RequestBody ProcessDTO dto) {
         flowableBaseService.completeTask(dto);
         return Result.success();
+    }
+
+    @PostMapping("/delegate")
+    public Result<Object> delegate(@RequestBody ProcessDTO dto) {
+        flowableBaseService.delegate(dto);
+        return Result.success();
+    }
+
+    @PostMapping("/claim")
+    public Result<Object> claim(@RequestBody ProcessDTO dto) {
+        flowableBaseService.claim(dto);
+        return Result.success();
+    }
+
+    @PostMapping("/unClaim")
+    public Result<Object> unClaim(@RequestBody ProcessDTO dto) {
+        flowableBaseService.unClaim(dto);
+        return Result.success();
+    }
+
+    @PostMapping("/setAssignee")
+    public Result<Object> setAssignee(@RequestBody ProcessDTO dto) {
+        flowableBaseService.setAssignee(dto);
+        return Result.success();
+    }
+
+    @GetMapping("/getProcessDiagram")
+    public void getProcessDiagram(HttpServletResponse httpServletResponse,@RequestParam String processInstanceId) {
+        flowableBaseService.getProcessDiagram(httpServletResponse, processInstanceId);
     }
 }

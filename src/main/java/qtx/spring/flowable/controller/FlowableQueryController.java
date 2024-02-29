@@ -42,7 +42,6 @@ public class FlowableQueryController {
         return Result.success(flowableQueryService.taskList(dto));
     }
 
-
     @GetMapping("/processAll")
     public Result<List<DeploymentVO>> processAll() {
         return Result.success(flowableQueryService.processAll());

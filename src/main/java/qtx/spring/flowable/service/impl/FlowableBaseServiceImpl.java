@@ -1,10 +1,19 @@
 package qtx.spring.flowable.service.impl;
 
 import io.minio.ObjectWriteResponse;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.SneakyThrows;
 import org.apache.commons.lang3.StringUtils;
+import org.flowable.bpmn.model.BpmnModel;
+import org.flowable.engine.ProcessEngineConfiguration;
+import org.flowable.engine.RuntimeService;
+import org.flowable.engine.history.HistoricActivityInstance;
+import org.flowable.engine.history.HistoricProcessInstance;
 import org.flowable.engine.repository.Deployment;
+import org.flowable.engine.repository.ProcessDefinition;
 import org.flowable.engine.runtime.ProcessInstance;
+import org.flowable.image.ProcessDiagramGenerator;
+import org.flowable.image.impl.DefaultProcessDiagramGenerator;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import qtx.spring.flowable.common.FlowableFactory;
@@ -14,6 +23,12 @@ import qtx.spring.flowable.pojo.vo.ProcessInstanceVO;
 import qtx.spring.flowable.service.FlowableBaseService;
 import qtx.spring.flowable.util.MinioUtils;
 import qtx.spring.flowable.util.NumUtils;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author qtx
@@ -84,5 +99,33 @@ public class FlowableBaseServiceImpl extends FlowableFactory implements Flowable
     @Override
     public void setAssignee(ProcessDTO dto) {
         getTaskService().setAssignee(dto.getTaskId(), dto.getUser());
+    }
+
+    @SneakyThrows
+    @Override
+    public void getProcessDiagram(HttpServletResponse httpServletResponse, String processInstanceId) {
+        // 根据流程实例ID获取流程实例
+        ProcessDefinition processDefinition = getRepositoryService().createProcessDefinitionQuery()
+                .processDefinitionId(processInstanceId)
+                .singleResult();
+
+        // 获取流程定义的BpmnModel
+        BpmnModel bpmnModel = getRepositoryService().getBpmnModel(processDefinition.getId());
+
+        // 获取流程实例当前状态的流程图
+        InputStream inputStream = new DefaultProcessDiagramGenerator().generateJpgDiagram(bpmnModel);
+
+        // 设置响应头
+        httpServletResponse.setContentType("image/jpg");
+        httpServletResponse.setHeader("Content-Disposition", "attachment; filename=processDiagram.png");
+
+        // 将流程图写入响应流
+        int bytesRead;
+        byte[] buffer = new byte[1024];
+        while ((bytesRead = inputStream.read(buffer)) != -1) {
+            httpServletResponse.getOutputStream()
+                    .write(buffer, 0, bytesRead);
+        }
+        inputStream.close();
     }
 }

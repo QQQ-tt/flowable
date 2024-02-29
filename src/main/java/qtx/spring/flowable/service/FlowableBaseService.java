@@ -1,5 +1,6 @@
 package qtx.spring.flowable.service;
 
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.web.multipart.MultipartFile;
 import qtx.spring.flowable.pojo.dto.ProcessDTO;
 import qtx.spring.flowable.pojo.vo.DeploymentVO;
@@ -62,4 +63,12 @@ public interface FlowableBaseService {
      * @param dto 流程参数
      */
     void setAssignee(ProcessDTO dto);
+
+    /**
+     * 获取流程图
+     *
+     * @param httpServletResponse 响应对象
+     * @param processInstanceId 流程参数
+     */
+    void getProcessDiagram(HttpServletResponse httpServletResponse, String processInstanceId);
 }
