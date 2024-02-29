@@ -29,6 +29,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.TreeMap;
 
 /**
  * @author qtx
@@ -118,10 +119,10 @@ public class FlowableBaseServiceImpl extends FlowableFactory implements Flowable
         BpmnModel bpmnModel = getRepositoryService().getBpmnModel(processDefinition.getId());
 
         // 获取流程实例当前状态的流程图
-        InputStream inputStream = new DefaultProcessDiagramGenerator().generateJpgDiagram(bpmnModel);
+        InputStream inputStream = new DefaultProcessDiagramGenerator().generatePngDiagram(bpmnModel, 1.00, true);
 
         // 设置响应头
-        httpServletResponse.setContentType("image/jpg");
+        httpServletResponse.setContentType("image/png");
         httpServletResponse.setHeader("Content-Disposition", "attachment; filename=processDiagram.png");
 
         // 将流程图写入响应流
