@@ -3,19 +3,15 @@ package qtx.spring.flowable.pojo.vo;
 import lombok.Builder;
 import lombok.Data;
 
-import java.util.List;
-
 /**
  * @author qtx
- * @since 2024/2/27
+ * @since 2024/2/29
  */
 @Data
 @Builder
-public class DeploymentVO {
+public class ProcessDefinitionVO {
 
     private String id;
 
     private String name;
-
-    private List<ProcessDefinitionVO> processDefinitionList;
 }

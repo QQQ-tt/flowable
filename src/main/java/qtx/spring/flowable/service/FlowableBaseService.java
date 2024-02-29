@@ -22,6 +22,12 @@ public interface FlowableBaseService {
     DeploymentVO createDeploy(MultipartFile file, String name);
 
     /**
+     * 删除部署
+     * @param deploymentId 部署ID
+     */
+    void deleteDeploy(String deploymentId);
+
+    /**
      * 运行流程
      *
      * @param dto 流程参数
@@ -70,5 +76,5 @@ public interface FlowableBaseService {
      * @param httpServletResponse 响应对象
      * @param processInstanceId 流程参数
      */
-    void getProcessDiagram(HttpServletResponse httpServletResponse, String processInstanceId);
+    void getProcessDiagram(HttpServletResponse httpServletResponse, String processDefinitionId);
 }

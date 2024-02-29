@@ -33,6 +33,12 @@ public class FlowableBaseController {
         return Result.success(flowableBaseService.createDeploy(file, name));
     }
 
+    @GetMapping("/deleteDeploy")
+    public Result<Object> deleteDeploy(@RequestParam String deploymentId) {
+        flowableBaseService.deleteDeploy(deploymentId);
+        return Result.success();
+    }
+
     @PostMapping("/startProcess")
     public Result<ProcessInstanceVO> startProcess(@RequestBody ProcessDTO dto) {
         return Result.success(flowableBaseService.startProcess(dto));
@@ -69,7 +75,7 @@ public class FlowableBaseController {
     }
 
     @GetMapping("/getProcessDiagram")
-    public void getProcessDiagram(HttpServletResponse httpServletResponse,@RequestParam String processInstanceId) {
-        flowableBaseService.getProcessDiagram(httpServletResponse, processInstanceId);
+    public void getProcessDiagram(HttpServletResponse httpServletResponse, @RequestParam String processDefinitionId) {
+        flowableBaseService.getProcessDiagram(httpServletResponse, processDefinitionId);
     }
 }

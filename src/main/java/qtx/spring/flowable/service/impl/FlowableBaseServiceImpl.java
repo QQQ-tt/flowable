@@ -65,6 +65,11 @@ public class FlowableBaseServiceImpl extends FlowableFactory implements Flowable
     }
 
     @Override
+    public void deleteDeploy(String deploymentId) {
+        getRepositoryService().deleteDeployment(deploymentId, true);
+    }
+
+    @Override
     public ProcessInstanceVO startProcess(ProcessDTO dto) {
         ProcessInstance instance = getRuntimeService().startProcessInstanceById(dto.getProcessInstanceId(),
                 dto.getVariables());
@@ -103,10 +108,10 @@ public class FlowableBaseServiceImpl extends FlowableFactory implements Flowable
 
     @SneakyThrows
     @Override
-    public void getProcessDiagram(HttpServletResponse httpServletResponse, String processInstanceId) {
+    public void getProcessDiagram(HttpServletResponse httpServletResponse, String processDefinitionId) {
         // 根据流程实例ID获取流程实例
         ProcessDefinition processDefinition = getRepositoryService().createProcessDefinitionQuery()
-                .processDefinitionId(processInstanceId)
+                .processDefinitionId(processDefinitionId)
                 .singleResult();
 
         // 获取流程定义的BpmnModel
