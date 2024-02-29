@@ -58,6 +58,10 @@ public class FlowableFactory {
         return processEngine.getDynamicBpmnService();
     }
 
+    public ProcessEngine getProcessEngine() {
+        return this.processEngine;
+    }
+
     @NotNull
     protected List<TaskVO> getTaskVOList(List<Task> taskList) {
         List<TaskVO> list = new ArrayList<>();

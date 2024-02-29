@@ -5,8 +5,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.SneakyThrows;
 import org.apache.commons.lang3.StringUtils;
 import org.flowable.bpmn.model.BpmnModel;
+import org.flowable.common.engine.impl.util.IoUtil;
 import org.flowable.engine.ProcessEngineConfiguration;
-import org.flowable.engine.RuntimeService;
 import org.flowable.engine.history.HistoricActivityInstance;
 import org.flowable.engine.history.HistoricProcessInstance;
 import org.flowable.engine.repository.Deployment;
@@ -29,7 +29,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.TreeMap;
+import java.util.Objects;
 
 /**
  * @author qtx
@@ -109,29 +109,43 @@ public class FlowableBaseServiceImpl extends FlowableFactory implements Flowable
 
     @SneakyThrows
     @Override
-    public void getProcessDiagram(HttpServletResponse httpServletResponse, String processDefinitionId) {
-        // 根据流程实例ID获取流程实例
-        ProcessDefinition processDefinition = getRepositoryService().createProcessDefinitionQuery()
-                .processDefinitionId(processDefinitionId)
-                .singleResult();
-
-        // 获取流程定义的BpmnModel
-        BpmnModel bpmnModel = getRepositoryService().getBpmnModel(processDefinition.getId());
-
-        // 获取流程实例当前状态的流程图
-        InputStream inputStream = new DefaultProcessDiagramGenerator().generatePngDiagram(bpmnModel, 1.00, true);
-
-        // 设置响应头
-        httpServletResponse.setContentType("image/png");
-        httpServletResponse.setHeader("Content-Disposition", "attachment; filename=processDiagram.png");
-
-        // 将流程图写入响应流
-        int bytesRead;
-        byte[] buffer = new byte[1024];
-        while ((bytesRead = inputStream.read(buffer)) != -1) {
-            httpServletResponse.getOutputStream()
-                    .write(buffer, 0, bytesRead);
+    public void getProcessDiagram(HttpServletResponse httpServletResponse, String processInstanceId) {
+        // 1.根据流程定义ID获取流程实例ID
+        ProcessInstance processInstance = getRuntimeService().createProcessInstanceQuery().processInstanceId(processInstanceId).singleResult();
+        BpmnModel bpmnModel = getRepositoryService().getBpmnModel(processInstance.getProcessDefinitionId());
+        // 2.获取高亮节点和线
+        List<String> highLightedActivities = new ArrayList<>();
+        List<String> highLightedFlows = new ArrayList<>();
+        // 根据流程实例ID获得完成状态的activity
+        List<HistoricActivityInstance> highLightedActivityList = getHistoryService().createHistoricActivityInstanceQuery()
+                .processInstanceId(processInstanceId).finished().orderByHistoricActivityInstanceStartTime().asc().list();
+        // 拿到ActivityId和sequenceFlow合集
+        for (HistoricActivityInstance tempActivity : highLightedActivityList) {
+            // 过滤掉因为边界事件删除掉人工节点（说明该人工节点实际未执行过，直接被边界事件结束了）
+            String deleteReason = tempActivity.getDeleteReason();
+            if (deleteReason != null && "userTask".equals(tempActivity.getActivityType()) && deleteReason.startsWith("boundary event")) {
+                continue;
+            }
+            String activityId = tempActivity.getActivityId();
+            highLightedActivities.add(activityId);
+            if ("sequenceFlow".equals(tempActivity.getActivityType())) {
+                highLightedFlows.add(tempActivity.getActivityId());
+            }
         }
-        inputStream.close();
+        // 3.生成图片
+        ProcessEngineConfiguration engConf = this.getProcessEngine().getProcessEngineConfiguration();
+        ProcessDiagramGenerator diagramGenerator = engConf.getProcessDiagramGenerator();
+        InputStream in = diagramGenerator.generateDiagram(bpmnModel, "png", highLightedActivities, highLightedFlows, engConf.getActivityFontName(),
+                engConf.getLabelFontName(), engConf.getAnnotationFontName(), engConf.getClassLoader(), 1.0, true);
+        OutputStream out = null;
+        byte[] buf = new byte[1024];
+        int length;
+        out = httpServletResponse.getOutputStream();
+        while ((length = in.read(buf)) != -1) {
+            out.write(buf, 0, length);
+        }
+        IoUtil.closeSilently(out);
+        IoUtil.closeSilently(in);
+
     }
 }

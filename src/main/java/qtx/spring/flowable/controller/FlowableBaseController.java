@@ -75,7 +75,7 @@ public class FlowableBaseController {
     }
 
     @GetMapping("/getProcessDiagram")
-    public void getProcessDiagram(HttpServletResponse httpServletResponse, @RequestParam String processDefinitionId) {
-        flowableBaseService.getProcessDiagram(httpServletResponse, processDefinitionId);
+    public void getProcessDiagram(HttpServletResponse httpServletResponse, @RequestParam String processInstanceId) {
+        flowableBaseService.getProcessDiagram(httpServletResponse, processInstanceId);
     }
 }

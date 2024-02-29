@@ -6,6 +6,8 @@ import qtx.spring.flowable.pojo.dto.ProcessDTO;
 import qtx.spring.flowable.pojo.vo.DeploymentVO;
 import qtx.spring.flowable.pojo.vo.ProcessInstanceVO;
 
+import java.io.InputStream;
+
 /**
  * @author qtx
  * @since 2024/2/27
@@ -76,5 +78,5 @@ public interface FlowableBaseService {
      * @param httpServletResponse 响应对象
      * @param processInstanceId 流程参数
      */
-    void getProcessDiagram(HttpServletResponse httpServletResponse, String processDefinitionId);
+    void getProcessDiagram(HttpServletResponse httpServletResponse, String processInstanceId);
 }
