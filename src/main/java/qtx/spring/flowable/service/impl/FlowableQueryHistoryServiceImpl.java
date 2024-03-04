@@ -32,14 +32,12 @@ public class FlowableQueryHistoryServiceImpl extends FlowableFactory implements 
                 .orderByHistoricActivityInstanceEndTime()
                 .asc() // 指定排序的字段和顺序
                 .list();
-        list.forEach(e -> {
-            voList.add(HistoryVO.builder()
-                    .getActivityId(e.getActivityId())
-                    .activityName(e.getActivityName())
-                    .assignee(e.getAssignee())
-                    .durationInMillis(e.getDurationInMillis())
-                    .build());
-        });
+        list.forEach(e -> voList.add(HistoryVO.builder()
+                .getActivityId(e.getActivityId())
+                .activityName(e.getActivityName())
+                .assignee(e.getAssignee())
+                .durationInMillis(e.getDurationInMillis())
+                .build()));
         return voList;
     }
 
@@ -85,14 +83,12 @@ public class FlowableQueryHistoryServiceImpl extends FlowableFactory implements 
         List<CommentVO> list = new ArrayList<>();
         // 获取意见评论内容
         List<Comment> commentList = getTaskService().getProcessInstanceComments(instanceId);
-        commentList.forEach(e -> {
-            list.add(CommentVO.builder()
-                    .taskId(e.getTaskId())
-                    .userId(e.getUserId())
-                    .type(e.getType())
-                    .comment(e.getFullMessage())
-                    .build());
-        });
+        commentList.forEach(e -> list.add(CommentVO.builder()
+                .taskId(e.getTaskId())
+                .userId(e.getUserId())
+                .type(e.getType())
+                .comment(e.getFullMessage())
+                .build()));
         return list;
     }
 }

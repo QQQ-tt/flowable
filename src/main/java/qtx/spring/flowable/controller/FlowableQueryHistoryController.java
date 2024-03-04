@@ -48,6 +48,4 @@ public class FlowableQueryHistoryController {
     public Result<List<CommentVO>> listCommentsByInstanceId(String instanceId) {
         return Result.success(flowableQueryHistoryService.listCommentsByInstanceId(instanceId));
     }
-
-
 }

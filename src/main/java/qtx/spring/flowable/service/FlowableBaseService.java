@@ -76,7 +76,7 @@ public interface FlowableBaseService {
      * 获取流程图
      *
      * @param httpServletResponse 响应对象
-     * @param processInstanceId 流程参数
+     * @param processDefinitionId 流程参数
      */
     void getProcessDiagram(HttpServletResponse httpServletResponse, String processInstanceId);
 }
